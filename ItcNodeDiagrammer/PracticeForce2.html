@@ -1,0 +1,45 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Practice Force</title>
+	<meta charset="utf-8">
+	
+</head>
+	<body style="width:100%;height:100%">
+		<svg width="100%" height="100%">
+			
+		</svg>
+		<script src="http://d3js.org/d3.v3.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script>
+
+			var svg = d3.select('svg');
+			var rect = svg.append("rect")
+			.attr({
+				fill: "#808080",
+				x: 0,
+				y: 0,
+				width: 200,
+				height: 200
+			});
+			// Add zooming 
+			// create the zoom listener
+			var zoomListener = d3.behavior.zoom()
+			  .scaleExtent([0.1, 3])
+			  .on("zoom", zoomHandler);
+
+			// function for handling zoom event
+			function zoomHandler() {
+				svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+			}
+
+
+			// apply the zoom behavior to the svg image
+			zoomListener(svg);
+		</script>
+
+
+
+	</body>
+</html>

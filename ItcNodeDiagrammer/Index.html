@@ -1,0 +1,268 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Itc Node Graph</title>
+	<style>
+
+		.selectedNodes {
+			float: left;
+			padding: 0 20px;
+		}
+
+		.actionSelection {
+			float: left;
+			padding: 10px 40px;
+			border-width: 1px 0 1px;
+			border-color: black;
+			border-style: solid;
+		}
+
+		.sendButton {
+			float: left;
+			padding: 60px 20px 60px 0;
+		}
+
+		.actionForm {
+			position: fixed;
+			bottom: 0;
+		}
+
+		.viewPort {
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 200px;
+		}
+
+		#selectedNode1 {
+			color: coral;
+		}
+
+		#selectedNode2 {
+			color: blue;
+		}
+
+		.node1Selection {
+			fill: coral;
+		}
+
+		.node2Selection {
+			fill: blue;
+		}
+
+		.currentNode { 
+			border-width: 10px;
+			border-color: red;
+			border-style: solid;
+		}
+
+		.usedNode {
+			fill: lightgray;
+		}
+
+		.instructions {
+			color: green
+		}
+
+		.selectedNodeInfo {
+			float: right;
+		}
+	</style>
+</head>
+
+<body>
+	<svg xmlns="http://www.w3.org/2000/svg"
+		 xlink:xlink="http://www.w3.org/1999/xlink" class="viewPort" height="100%" width="100%">
+
+	</svg> 
+	<div class="selectedNodeInfo">
+		
+	</div>
+	<form class="actionForm">
+		<div class="selectedNodes">
+			<h4>Selecting which node:</h4>
+			<p id="selectedNode1">Node1<input name="nodeSelectionForAction" type="radio" value="node1" checked /></p>
+			<p id="selectedNode2">Node2<input name="nodeSelectionForAction" type="radio" value="node1" /></p>
+		</div>
+		<div class="actionSelection">
+			<p><input type="radio" name="ItcAction" value="Event">Event</p>
+			<p><input type="radio" name="ItcAction" value="Join">Join</p>
+			<p><input type="radio" name="ItcAction" value="Fork">Fork</p>
+		</div>
+		<div class="sendButton">
+			<input type="button" id="sendAction" value="Do Action" />
+		</div>
+		<div class="instructions">
+			<p>Instructions</p>
+			Select a node for an action by clicking it. Select an action type:
+			event, join or fork. Events and fork actions require only a
+			node1 (orange) selection.  Joins also require a node2 (blue)
+			selection.
+		</div>
+	</form>
+	<script src="lib/d3.v3.min.js"></script>
+	<!--<script src="http://d3js.org/d3.v3.min.js"></script>-->
+	<script src="lib/jquery-2.1.1.min.js"></script>
+	<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>-->
+	<script src="src/itcNodeApi.js"></script>
+	<script src="src/nodeDiagram.js"></script>
+	<script src="src/forceLayoutForNodeDiagrams.js"></script>
+	<!--<script src="src/sendActions.js" type="text/javascript"></script>-->
+	<script>
+		var svg = d3.select('svg');
+		var itcLayout;
+		var promise = itcNodeApi.newNode();
+		var nodeWidth = 50;
+		var heightOfStampValues = 5;
+		var lastClicked;
+		var selectedItcNode1;
+		var selectedItcNode2;
+		var selectedForceNode1;
+		var selectedForceNode2;
+
+		function clearSelectedNodes() {
+			selectedItcNode1 = null;
+			selectedItcNode2 = null;
+			selectedForceNode1 = null;
+			selectedForceNode2 = null;
+			d3.select(".node2Selection").classed("node2Selection", false);
+			d3.select(".node1Selection").classed("node1Selection", false);
+		}
+
+		var promise = itcNodeApi.newNode();
+		promise.done(function (itcNodeData) {
+			itcLayout = d3.ItcNodeGraph.layout();
+			itcLayout.nodeDrawer(drawItcNode);
+			itcLayout.nodeWidth(nodeWidth);
+			itcLayout.itcNodes([itcNodeData]);
+			itcLayout(svg);
+		});
+
+
+		function drawItcNode(g, nodeData) {
+			var chart = d3.ItcNodeGraph.itcNode();
+			chart.width(nodeWidth)
+			.heightOfStampValues(heightOfStampValues)
+			.node(nodeData)
+			.selectionAction(function (selectedNode, forceNode) {
+				$(".selectedNodeInfo").html(getTextForItcNode(forceNode.itcNode));
+				d3.select(".currentNode").classed("currentNode", false).attr({
+					stroke: "#111111"
+				});
+				d3.select(selectedNode).classed("currentNode", true).attr({
+					stroke: "#FF0000"
+				});;
+				if (selectedNode.classList.contains('usedNode')) {
+					return; 
+				}
+				if (lastClicked[0].id == "selectedNode1") {
+					d3.selectAll(".node1Selection").classed("node1Selection", false);
+					d3.select(selectedNode).classed("node2Selection", false);
+					d3.select(selectedNode).classed("node1Selection", true);
+					selectedItcNode1 = forceNode.itcNode;
+					selectedForceNode1 = selectedNode;
+				} else {
+					d3.selectAll(".node2Selection").classed("node2Selection", false);
+					d3.select(selectedNode).classed("node1Selection", false);
+					d3.select(selectedNode).classed("node2Selection", true);
+					selectedItcNode2 = forceNode.itcNode;
+					selectedForceNode2 = selectedNode;
+				}
+			});
+
+			chart(g);
+		}
+		function getTextForItcNode(itcNode) {
+
+			function getTextForId(itcId) {
+				if (itcId.IsLeaf) {
+					return itcId.Value + "";
+				}
+				return "(" + getTextForId(itcId.Left) + ", " + getTextForId(itcId.Right) + ")";
+			}
+			function getTextForEvent(itcEvent) {
+				if (itcEvent.IsLeaf) {
+					return itcEvent.Value;
+				}
+				return "(" + itcEvent.Value + ", " + getTextForEvent(itcEvent.Left) + ", " + getTextForEvent(itcEvent.Right) + ")";
+			}
+			var text = "Id: " + itcNode.Id + "</br>  Value: " + itcNode.SomeValue0 + "</br> Itc Id: " + getTextForId(itcNode.Stamp.Id) + "</br> Itc Event:" + getTextForEvent(itcNode.Stamp.Event) + "</br> Has Conflict: " + itcNode.HasConflict;
+			return text;
+		}
+
+		$(function () {
+			lastClicked = $("#selectedNode1");
+			$("#selectedNode1").click(function () {
+				lastClicked = $("#selectedNode1");
+			});
+
+			$("#selectedNode2").click(function () {
+				lastClicked = $("#selectedNode2");
+			});
+		});
+
+		$("#sendAction").click(function () {
+			var allNodes = itcLayout.itcNodes();
+			var promise;
+			var node1Index = allNodes.indexOf(selectedItcNode1);
+			var node2Index = allNodes.indexOf(selectedItcNode2);
+			
+			var actionType = $('input[name=ItcAction]:radio:checked').val();
+
+			switch (actionType) {
+				case "Event":
+					if (!selectedItcNode1) {
+						alert("Select a node1 (by clicking it) to perform an event on it.");
+						return;
+					}
+					promise = itcNodeApi.nodeEvent(selectedItcNode1);
+					promise.done(function (itcNodeData) {
+						d3.select(selectedForceNode1).classed("usedNode", true);
+						itcLayout.addItcNode(itcNodeData, node1Index);
+						itcLayout.restart();
+						clearSelectedNodes();
+					});
+					break;
+				case "Fork":
+					if (!selectedItcNode1) {
+						alert("Select a node1 (by clicking it) to perform a fork on it.");
+						return;
+					}
+					promise = itcNodeApi.fork(selectedItcNode1);
+					promise.done(function (itcNodes) {
+						d3.select(selectedForceNode1).classed("usedNode", true);
+						itcLayout.addItcNode(itcNodes.Node1, node1Index);
+						itcLayout.addItcNode(itcNodes.Node2, node1Index);
+						itcLayout.restart();
+						clearSelectedNodes();
+					});
+					break;
+				case "Join":
+					if (!selectedItcNode1 || !selectedItcNode2) {
+						alert("Select a node1 and node2 (by clicking them) to perform a join on them.");
+						return;
+					}
+					if (selectedItcNode1.Id == selectedItcNode2.Id) {
+						alert("You must select two different nodes to join");
+						return;
+					}
+					promise = itcNodeApi.join(selectedItcNode1, selectedItcNode2);
+					promise.done(function (itcNode) {
+						d3.select(selectedForceNode1).classed("usedNode", true);
+						d3.select(selectedForceNode2).classed("usedNode", true);
+						itcLayout.addItcNode(itcNode, node1Index, null, node2Index);
+						itcLayout.restart();
+						clearSelectedNodes();
+					});
+					break;
+				default:
+					alert("Select an action type: event, join or fork.");
+					break;
+			}			  
+		});
+	</script>
+
+</body>
+</html>
+

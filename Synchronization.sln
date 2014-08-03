@@ -1,0 +1,65 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntervalTreeClocksCSharp", "IntervalTreeClocksCSharp\IntervalTreeClocksCSharp.csproj", "{D2630B62-23CE-47C2-AF59-EDDA066784CB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ItcActionWebApi", "ItcActionWebApi\ItcActionWebApi.csproj", "{EEBF187D-1C73-40FE-8EF0-E27BCBF7BB06}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ItcNodeDiagrammer", "ItcNodeDiagrammer\ItcNodeDiagrammer.csproj", "{0178FAC1-AE13-4226-B65A-7C48CB5A8068}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestsAndSpecs", "TestsAndSpecs", "{3D0C4EA9-A000-4090-9210-5EECD3032E14}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Specifications", "TestAndSpecs\Specifications\Specifications.csproj", "{4EFCE7B3-749C-4A6F-9078-9BFBFD8334FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestUtilities", "TestAndSpecs\TestUtilities\TestUtilities.csproj", "{BF72DF9F-00FB-446A-999F-92B31CDBA417}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unit", "TestAndSpecs\Unit\Unit.csproj", "{BE88774B-813E-46BE-AD6C-6C45A9E2E39F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SynchronizerCSharp", "Synchronizor\SynchronizerCSharp.csproj", "{A00D979A-B509-419B-AB76-27C6D9697EA5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D2630B62-23CE-47C2-AF59-EDDA066784CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2630B62-23CE-47C2-AF59-EDDA066784CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2630B62-23CE-47C2-AF59-EDDA066784CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2630B62-23CE-47C2-AF59-EDDA066784CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEBF187D-1C73-40FE-8EF0-E27BCBF7BB06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEBF187D-1C73-40FE-8EF0-E27BCBF7BB06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEBF187D-1C73-40FE-8EF0-E27BCBF7BB06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEBF187D-1C73-40FE-8EF0-E27BCBF7BB06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0178FAC1-AE13-4226-B65A-7C48CB5A8068}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0178FAC1-AE13-4226-B65A-7C48CB5A8068}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0178FAC1-AE13-4226-B65A-7C48CB5A8068}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0178FAC1-AE13-4226-B65A-7C48CB5A8068}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4EFCE7B3-749C-4A6F-9078-9BFBFD8334FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EFCE7B3-749C-4A6F-9078-9BFBFD8334FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EFCE7B3-749C-4A6F-9078-9BFBFD8334FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EFCE7B3-749C-4A6F-9078-9BFBFD8334FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF72DF9F-00FB-446A-999F-92B31CDBA417}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF72DF9F-00FB-446A-999F-92B31CDBA417}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF72DF9F-00FB-446A-999F-92B31CDBA417}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF72DF9F-00FB-446A-999F-92B31CDBA417}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE88774B-813E-46BE-AD6C-6C45A9E2E39F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE88774B-813E-46BE-AD6C-6C45A9E2E39F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE88774B-813E-46BE-AD6C-6C45A9E2E39F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE88774B-813E-46BE-AD6C-6C45A9E2E39F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A00D979A-B509-419B-AB76-27C6D9697EA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A00D979A-B509-419B-AB76-27C6D9697EA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A00D979A-B509-419B-AB76-27C6D9697EA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A00D979A-B509-419B-AB76-27C6D9697EA5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4EFCE7B3-749C-4A6F-9078-9BFBFD8334FB} = {3D0C4EA9-A000-4090-9210-5EECD3032E14}
+		{BF72DF9F-00FB-446A-999F-92B31CDBA417} = {3D0C4EA9-A000-4090-9210-5EECD3032E14}
+		{BE88774B-813E-46BE-AD6C-6C45A9E2E39F} = {3D0C4EA9-A000-4090-9210-5EECD3032E14}
+	EndGlobalSection
+EndGlobal
